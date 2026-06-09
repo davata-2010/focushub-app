@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# FocusHub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Centro de productividad "todo en uno"** — un dashboard minimalista con modo oscuro
+por defecto que reúne un temporizador **Pomodoro**, un **tablero Kanban** con
+arrastrar y soltar, y un **tracker de hábitos**. Todo tu estado se guarda de forma
+local y persistente en el navegador (IndexedDB), sin cuentas ni servidores.
 
-Currently, two official plugins are available:
+![Stack](https://img.shields.io/badge/Vite-React%2BTS-646CFF) ![Tailwind](https://img.shields.io/badge/Tailwind-v4-38BDF8) ![Zustand](https://img.shields.io/badge/State-Zustand-443E38)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Características
 
-## React Compiler
+- **⏱️ Pomodoro preciso** — temporizador basado en _timestamp_ (sin drift), con
+  modos Enfoque / Descanso corto / Descanso largo, ciclo automático configurable,
+  contador de sesiones y notificación + sonido al terminar cada fase.
+- **🗂️ Tablero Kanban** — 3 columnas (Por hacer · En progreso · Hecho) con
+  `@dnd-kit`: reordena dentro de una columna o mueve entre columnas, con
+  actualización instantánea del estado global. Tarjetas con prioridad, fecha
+  límite, etiquetas y edición en línea.
+- **✅ Hábitos diarios** — checkbox para registrar el día de hoy, con racha
+  (_streak_) y progreso de los últimos 7 días.
+- **🎨 UI profesional** — diseño tipo dashboard, tipografía Inter, modo
+  oscuro/claro con toggle, totalmente responsive (de móvil a escritorio).
+- **💾 Persistencia automática** — el estado se guarda en IndexedDB con
+  `localforage` mediante el middleware `persist` de Zustand.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧱 Stack técnico
 
-## Expanding the ESLint configuration
+| Área            | Tecnología                                         |
+| --------------- | -------------------------------------------------- |
+| Framework       | Vite + React + TypeScript                          |
+| Estilos         | Tailwind CSS v4 (`@tailwindcss/vite`)              |
+| Estado global   | Zustand (+ middleware `persist`)                   |
+| Persistencia    | localforage (IndexedDB)                            |
+| Drag & Drop     | `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` |
+| Iconos / Fuente | lucide-react · Inter (`@fontsource/inter`)         |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Puesta en marcha
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install      # instala dependencias
+npm run dev      # servidor de desarrollo (http://localhost:5173)
+npm run build    # compila y valida tipos para producción
+npm run preview  # sirve el build de producción
+npm run lint     # ejecuta ESLint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📁 Estructura
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  types/                 Tipos de dominio (Task, Habit, Pomodoro…)
+  store/useStore.ts      Store de Zustand + persistencia en IndexedDB
+  lib/                   Utilidades (fechas/racha, reloj, notificaciones)
+  components/
+    layout/              AppShell, Sidebar, CommandCenter
+    pomodoro/            Motor del temporizador, panel y ajustes
+    kanban/              Tablero, columnas, tarjetas y formularios
+    habits/              Tracker de hábitos
+    ui/                  Primitivas reutilizables (IconButton)
+```
+
+## 📝 Notas
+
+- El temporizador deriva el tiempo restante de un _timestamp_ objetivo, por lo que
+  se mantiene exacto aunque la pestaña pase a segundo plano.
+- Al primer arranque se cargan datos de ejemplo para mostrar la interfaz; puedes
+  borrarlos y crear los tuyos. Todo queda guardado en tu navegador.
