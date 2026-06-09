@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useStore } from './store/useStore'
 import { CommandCenter } from './components/layout/CommandCenter'
+import { KanbanBoard } from './components/kanban/KanbanBoard'
 import { usePomodoroEngine } from './components/pomodoro/usePomodoroEngine'
 
 function App() {
@@ -14,10 +15,8 @@ function App() {
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
       <CommandCenter />
-      <main className="grid flex-1 place-items-center p-6">
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          El tablero Kanban y los paneles llegan en las siguientes fases…
-        </p>
+      <main className="flex-1 overflow-auto p-4 sm:p-6">
+        <KanbanBoard />
       </main>
     </div>
   )
