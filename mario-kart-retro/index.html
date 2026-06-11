@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Retro Kart GP — juego de carreras 2D</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <canvas id="game" width="960" height="600"></canvas>
+
+    <!-- Controles táctiles (móvil) -->
+    <div id="touch-controls">
+      <div class="tc-group tc-left">
+        <button class="tc-btn" id="tc-left">◀</button>
+        <button class="tc-btn" id="tc-right">▶</button>
+      </div>
+      <div class="tc-group tc-right">
+        <button class="tc-btn tc-small" id="tc-item">★</button>
+        <button class="tc-btn" id="tc-brake">▼</button>
+        <button class="tc-btn tc-gas" id="tc-gas">▲</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="help">
+    <strong>Controles:</strong> ↑/W acelerar · ↓/S frenar · ←/→ girar ·
+    ESPACIO usar objeto · SHIFT derrape (suéltalo para mini-turbo) · ENTER empezar / reiniciar
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
