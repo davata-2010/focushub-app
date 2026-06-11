@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Retro Kart GP 3D — carreras estilo Mario Kart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-box" id="hud-lap">VUELTA 1/3</div>
+    <div class="hud-box hud-rank" id="hud-rank">4º</div>
+    <div class="hud-box" id="hud-time">00:00.00</div>
+    <div class="hud-box hud-item" id="hud-item"></div>
+    <div id="hud-speed"><div id="hud-speed-fill"></div></div>
+    <canvas id="minimap" width="170" height="120"></canvas>
+  </div>
+
+  <!-- Mensajes centrales (menú, cuenta atrás, resultados) -->
+  <div id="overlay">
+    <div id="overlay-card">
+      <h1 id="overlay-title">RETRO KART GP <span>3D</span></h1>
+      <div id="overlay-body">3 vueltas · 4 pilotos · objetos locos</div>
+      <div id="overlay-hint">Pulsa ENTER o toca la pantalla para correr</div>
+    </div>
+  </div>
+  <div id="countdown"></div>
+
+  <!-- Controles táctiles (móvil) -->
+  <div id="touch-controls">
+    <div class="tc-group tc-left">
+      <button class="tc-btn" id="tc-left">◀</button>
+      <button class="tc-btn" id="tc-right">▶</button>
+    </div>
+    <div class="tc-group tc-right">
+      <button class="tc-btn tc-small" id="tc-item">★</button>
+      <button class="tc-btn" id="tc-brake">▼</button>
+      <button class="tc-btn tc-gas" id="tc-gas">▲</button>
+    </div>
+  </div>
+
+  <div id="help">
+    ↑/W acelerar · ↓/S frenar · ←/→ girar · ESPACIO objeto · SHIFT derrape · ENTER empezar
+  </div>
+
+  <script src="three.min.js"></script>
+  <script src="game3d.js"></script>
+</body>
+</html>
