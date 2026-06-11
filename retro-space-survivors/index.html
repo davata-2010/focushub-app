@@ -80,8 +80,12 @@ const mouse  = { x: canvas.width/2, y: canvas.height/2, clicked: false };
 window.addEventListener('keydown', e => { keys[e.code] = true;  e.preventDefault && ['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code) && e.preventDefault(); });
 window.addEventListener('keyup',   e => { keys[e.code] = false; });
 canvas.addEventListener('mousemove', e => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
-canvas.addEventListener('mousedown', () => { mouse.clicked = true; });
-canvas.addEventListener('mouseup',   () => { mouse.clicked = false; });
+canvas.addEventListener('click', e => {
+  const r = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - r.left;
+  mouse.y = e.clientY - r.top;
+  mouse.clicked = true;
+});
 
 // ── Particles ─────────────────────────────────────────────────────
 const particles = [];
@@ -796,7 +800,6 @@ function drawHUD() {
 }
 
 // ── Overlay: Menu ─────────────────────────────────────────────────
-let clickHandled = false;
 function drawMenu() {
   const W = canvas.width, H = canvas.height, t = Date.now()/1000;
   ctx.fillStyle = '#07090f'; ctx.fillRect(0,0,W,H);
@@ -840,15 +843,14 @@ function drawMenu() {
   // Input
   const inBtn = () => {
     if (mouse.clicked && mouse.x>bX && mouse.x<bX+bW && mouse.y>bY && mouse.y<bY+bH) {
-      if (!clickHandled) { clickHandled = true; G.reset(); }
-    } else { clickHandled = false; }
+      G.reset();
+    }
     if (keys['Space']||keys['Enter']) { keys['Space']=keys['Enter']=false; G.reset(); }
   };
   inBtn();
 }
 
 // ── Overlay: Level Up ─────────────────────────────────────────────
-let lvlClickT = 0;
 function drawLevelUp() {
   const W = canvas.width, H = canvas.height;
   ctx.fillStyle = 'rgba(0,0,15,0.82)'; ctx.fillRect(0,0,W,H);
@@ -905,7 +907,7 @@ function drawLevelUp() {
     ctx.fillText(`[${i+1}]`, cx+cW/2, cY+cH-14);
 
     // Click
-    if (hov && mouse.clicked && Date.now()-lvlClickT > 300) { lvlClickT=Date.now(); applyUpgrade(i); }
+    if (hov && mouse.clicked) { applyUpgrade(i); }
   });
 
   if (keys['Digit1']||keys['Numpad1']) { keys['Digit1']=keys['Numpad1']=false; applyUpgrade(0); }
@@ -950,8 +952,8 @@ function drawGameOver() {
 
   const inBtn=()=>{
     if (mouse.clicked && mouse.x>bX && mouse.x<bX+bW && mouse.y>bY && mouse.y<bY+bH) {
-      if (!clickHandled) { clickHandled=true; G.reset(); }
-    } else { clickHandled=false; }
+      G.reset();
+    }
     if (keys['Space']||keys['Enter']||keys['KeyR']) { keys['Space']=keys['Enter']=keys['KeyR']=false; G.reset(); }
   };
   inBtn();
@@ -1021,6 +1023,7 @@ function loop(ts) {
   const dt = Math.min((ts - lastTs) / 1000, 0.05);
   lastTs = ts;
   update(dt); render();
+  mouse.clicked = false;
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
